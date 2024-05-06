@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from 'react'
+import logoImage from './../assets/logo.svg'
 
 const Home = () => {
     const [location, setLocation] = useState(null)
@@ -26,7 +27,7 @@ const Home = () => {
         console.log(latitude, longitude)
         console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
 
-        // Make API call to OpenWeatherMap
+        //make api call to OpenWeatherMap
         axios
             .get(`https://weatherwear-back.onrender.com/api/weather/${latitude},${longitude}`)
             .then(res => {
@@ -43,7 +44,11 @@ const Home = () => {
 
     return (
         <div>
-            <h1>Weather Wear</h1>
+            <div className='flex flex-row'>
+                <img src={logoImage} className='w-20 mx-2'/>
+                <h1 className='text-5xl p-2 text-sky-800 my-4' >wearweather</h1>
+            </div>
+            
             {/* {!location ? <button onClick={getLocation}>Get Location</button> : null} */}
             {location && !weather ? <p>Loading weather data...</p> : null}
             {/* {weather ? (
@@ -54,11 +59,14 @@ const Home = () => {
                 </div>
             ) : null} */}
             {weather && 
-                <div>
-                    weather: {weather.current.temp_f}
-                    <br />
-                    feels like: {weather.current.feelslike_f}
+                <div className='flex justify-center items-center'>
+                    <div className='flex flex-col p-2'>
+                        <img src={`https:${weather.current.condition.icon}`}/>
+                        <p>Temperature: {weather.current.temp_f} <span className='text-xs text-gray-500'>(F)</span></p>
+                        <p>Feels Like: {weather.current.feelslike_f} <span className='text-xs text-gray-500'>(F)</span></p>
+                    </div>
                 </div>
+                
             
             }
         </div>
